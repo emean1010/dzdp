@@ -15,24 +15,43 @@ header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
 shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='gbk'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
-shop_data['name'] = shop_data['name'].astype('str')
+shop_data['shop_name'] = shop_data['shop_name'].astype('str')
 shop_data['app_name'] = shop_data['app_name'].astype('str')
+shop_data['name'] = shop_data['name'].astype('str')
+shop_data['star_level'] = shop_data['star_level'].astype('str')
+shop_data['commits'] = shop_data['commits'].astype('str')
+shop_data['kw'] = shop_data['kw'].astype('str')
+shop_data['hj'] = shop_data['hj'].astype('str')
+shop_data['fw'] = shop_data['fw'].astype('str')
 shop_data['s5'] = shop_data['s5'].astype('str')
-# for i in range(0,len(shop_name['slsid'])):
-for i in range(0,1):
+shop_data['s4'] = shop_data['s4'].astype('str')
+shop_data['s3'] = shop_data['s3'].astype('str')
+shop_data['s2'] = shop_data['s2'].astype('str')
+shop_data['s1'] = shop_data['s1'].astype('str')
+for i in range(0,len(shop_name['slsid'])):
     url = shop_name.iloc[i,3]
     app_url = shop_name.iloc[i,2]
-    # dpdata = requests.get(url=url,headers = header).text
+    dpdata = requests.get(url=url,headers = header,allow_redirects = False).text
     appdata = requests.get(url=app_url).text
-    # bsObj = BeautifulSoup(dpdata,'html5lib')
+    bsObj = BeautifulSoup(dpdata,'html5lib')
     bsapp = BeautifulSoup(appdata, 'html5lib')
-    # shop_data.iloc[i,0] = shop_name.iloc[i,0]
-    # shop_data.iloc[i,3]=str(bsObj.title)
-    # shop_data.iloc[i,9]=str(bsObj.findAll("dd")[1].em)
-    # time.sleep(5)
-#shop_data.to_csv("./data310.csv")
-print(bsapp.title)
-print(bsapp.findAll("span",{"class":"shop-name"}))
-print(bsapp.findAll("span",{"class":re.compile("star star-"+"[0-9]+")})[0])
-print(bsapp.findAll("span",{"class":"itemNum-val"}))
-print(bsapp.findAll("div",{"class":"desc"}).contents)
+    shop_data.iloc[i,0] = shop_name.iloc[i,0]
+    shop_data.iloc[i,1] = shop_name.iloc[i,1]
+    shop_data.iloc[i,2] = bsapp.title.string
+    try:
+        shop_data.iloc[i,3] = str(bsObj.title.string[0:-14])
+    except AttributeError as e:
+        shop_data.iloc[i,3] = None
+    shop_data.iloc[i,4] = bsapp.findAll("span",{"class":re.compile("star star-"+"[0-9]+")})[0].attrs['class'][-1][-2:]
+    shop_data.iloc[i,5] = bsapp.findAll("span",{"class":"itemNum-val"})[0].string
+    shop_data.iloc[i,6] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[0].string
+    shop_data.iloc[i,7] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[1].string
+    shop_data.iloc[i,8] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[2].string
+    shop_data.iloc[i,9] = str(bsObj.findAll("dd")[1].em.string[1:-1])
+    shop_data.iloc[i,10] = str(bsObj.findAll("dd")[2].em.string[1:-1])
+    shop_data.iloc[i,11] = str(bsObj.findAll("dd")[3].em.string[1:-1])
+    shop_data.iloc[i,12] = str(bsObj.findAll("dd")[4].em.string[1:-1])
+    shop_data.iloc[i,13] = str(bsObj.findAll("dd")[5].em.string[1:-1])
+    print(shop_data[i:i+1])
+    time.sleep(5)
+shop_data.to_csv("C:DZDP/data310.csv")
