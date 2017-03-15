@@ -30,10 +30,10 @@ shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
 # shop_data['s1'] = shop_data['s1'].astype('str')
 
 def get_counts(origin_url,star_num = 1, ct_num = 37):
-    comments = {}
+    comments = 0
     x = 1
     add_url = "star?pageno="
-    if ct_num > 20:
+    while ct_num > 0:
         ct_url = origin_url + "_" + str(star_num) + add_url + str(x)
         comment_text = requests.get(url=ct_url, headers=header).text
         bsComment = BeautifulSoup(comment_text, 'html5lib')
@@ -41,9 +41,12 @@ def get_counts(origin_url,star_num = 1, ct_num = 37):
             a = len(bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})[i].findAll("span", {"class": "time"})[
                         0].string)
             if a == 5:
-                comments[i] = a
-        ct_num = ct_num - 20
+                comments += 1
+            elif a > 5:
+                return (comments)
+        ct_num -= 20
         x += 1
+        time.sleep(5)
     return(len(comments))
 
 for i in range(0,len(shop_name['slsid'])):
@@ -70,8 +73,8 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,11] = str(bsObj.findAll("dd")[3].em.string[1:-1])
     shop_data.iloc[i,12] = str(bsObj.findAll("dd")[4].em.string[1:-1])
     shop_data.iloc[i,13] = str(bsObj.findAll("dd")[5].em.string[1:-1])
-    shop_data.iloc[i,14] = get_counts(origin_url=url, star_num= 2, ct_num=int(shop_data.iloc[i,12]))
-    shop_data.iloc[i,15] = get_counts(origin_url=url, star_num=1, ct_num=int(shop_data.iloc[i, 13]))
+    shop_data.iloc[i,14] = get_counts(origin_url=url, star_num= 2, ct_num=int(shop_data.iloc[i, 12]))
+    shop_data.iloc[i,15] = get_counts(origin_url=url, star_num= 1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(5)
-shop_data.to_csv("C:/DZDP/data314.csv")
+shop_data.to_csv("C:/DZDP/data315.csv")
