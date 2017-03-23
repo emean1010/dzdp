@@ -81,12 +81,12 @@ for i in range(0,len(shop_name['slsid'])):
     sls_id = str(shop_name.iloc[i,0]).encode('utf-8')
     origin_name = str(shop_name.iloc[i,1]).encode('utf-8').decode('utf-8')
     sls_name = str(bsObj.title.string[0:-14])
-    star2_num = str(bsObj.findAll("dd")[4].em.string[1:-1])
-    star1_num = str(bsObj.findAll("dd")[5].em.string[1:-1])
+    star2_num = str(bsObj.find("a",{"href":re.compile('[a-z0-9\._+]+2star')}).parent.em.string[1:-1])
+    star1_num = str(bsObj.find("a", {"href": re.compile('[a-z0-9\._+]+1star')}).parent.em.string[1:-1])
     get_counts(origin_url=url, star_num = 2, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star2_num))
     get_counts(origin_url=url, star_num = 1, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star1_num))
     time.sleep(5)
 
 # 1,东滨店有一条繁体评论
 # 2，日期长度有大于5，比如03-16  更新于17-03-16 01:32
-# 3，星级评论数目，数目为0处为空，后面的星级数目提前
+# 3，星级评论数目，数目为0处为空，后面的星级数目提前，已解决
