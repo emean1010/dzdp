@@ -81,10 +81,16 @@ for i in range(0,len(shop_name['slsid'])):
     sls_id = str(shop_name.iloc[i,0]).encode('utf-8')
     origin_name = str(shop_name.iloc[i,1]).encode('utf-8').decode('utf-8')
     sls_name = str(bsObj.title.string[0:-14])
-    star2_num = str(bsObj.find("a",{"href":re.compile('[a-z0-9\._+]+2star')}).parent.em.string[1:-1])
-    star1_num = str(bsObj.find("a", {"href": re.compile('[a-z0-9\._+]+1star')}).parent.em.string[1:-1])
-    get_counts(origin_url=url, star_num = 2, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star2_num))
-    get_counts(origin_url=url, star_num = 1, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star1_num))
+    try:
+        star2_num = str(bsObj.find("a",{"href":re.compile('[a-z0-9\._+]+2star')}).parent.em.string[1:-1])
+        get_counts(origin_url=url, star_num=2, sid=sls_id, oname=origin_name, sname=sls_name, ct_num=int(star2_num))
+    except:
+        print('2star=0')
+    try:
+        star1_num = str(bsObj.find("a", {"href": re.compile('[a-z0-9\._+]+1star')}).parent.em.string[1:-1])
+        get_counts(origin_url=url, star_num = 1, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star1_num))
+    except:
+        print('1star=0')
     time.sleep(5)
 
 # 1,东滨店有一条繁体评论
