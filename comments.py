@@ -14,11 +14,11 @@ header = {
     'Referer':'http://www.dianping.com/shop/2230012',
     'pgrade-Insecure-Requests':'1',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
-shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='gbk'))
+shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='utf-8'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
-cm_file = codecs.open('comments317.txt','w')
+cm_file = codecs.open('comments317.txt','w','utf-8')
 
-def get_counts(origin_url,star_num = 1, ct_num = 37):
+def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_num = 37):
     comments = 0
     x = 1
     add_url = "star?pageno="
@@ -26,49 +26,60 @@ def get_counts(origin_url,star_num = 1, ct_num = 37):
         ct_url = origin_url + "_" + str(star_num) + add_url + str(x)
         comment_text = requests.get(url=ct_url, headers=header).text
         bsComment = BeautifulSoup(comment_text, 'html5lib')
+        cm_txt = ""
         for i in range(0, len(bsComment.findAll("li",{"id": re.compile("^rev_[0-9]+$")}))):
             base_data = bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})
             a = len(base_data[i].findAll("span", {"class": "time"})[0].string)
-            cm_star = base_data[i].findAll('span',{"class":re.compile("item-rank-rst irr-star[0-9]+")})[0].attrs['class']
-            print(cm_star[1][-2:-1])
-            cm_kw = base_data[i].findAll('span',{'class':'rst'})[0]
-            print(cm_kw)
-            cm_txt = base_data[i].findAll('div',{"class":"comment-txt"})[0].findAll("div")[0].string
-            print(cm_txt)
+            # 以下依次是星级、口味、环境、服务评分、评论内容
+            cm_star = base_data[i].findAll('span',{"class":re.compile("item-rank-rst irr-star[0-9]+")})[0].attrs['class'][1][-2:-1]
+            cm_kw = base_data[i].findAll('span',{'class':'rst'})[0].get_text()
+            cm_hj = base_data[i].findAll('span', {'class': 'rst'})[1].get_text()
+            cm_fw = base_data[i].findAll('span', {'class': 'rst'})[2].get_text()
+            pinglun = base_data[i].findAll('div',{"class":"J_brief-cont"})[0]
+            try:
+                cm_txt = cm_txt.join(pinglun.string)
+            except:
+                cm_txt = cm_txt.join(pinglun.get_text())
             if a == 5:
                 comments += 1
+                cm_file.write(str(sls_id.decode('utf-8')))
+                cm_file.write(",")
+                cm_file.write(str(origin_name))
+                cm_file.write(",")
+                cm_file.write(sls_name)
+                cm_file.write(",")
+                cm_file.write(str(cm_star))
+                cm_file.write(",")
+                cm_file.write(cm_kw)
+                cm_file.write(",")
+                cm_file.write(cm_hj)
+                cm_file.write(",")
+                cm_file.write(cm_fw)
+                cm_file.write(",")
+                try:
+                    cm_file.write(cm_txt)
+                except:
+                    cm_txt = cm_txt.join(str(pinglun.encode('utf-8').decode('utf-8')))
+                    cm_file.write(cm_txt)
+                    print(sls_name+'no pinglun:')
+                    print(cm_txt)
+                    print(pinglun)
+                cm_txt = ''
+                cm_file.write("\r\n")
             elif a > 5:
                 return (comments)
         ct_num -= 20
         x += 1
         time.sleep(5)
-    return(comments)
+        print(sls_name,comments)
 
 for i in range(0,len(shop_name['slsid'])):
     url = shop_name.iloc[i,3]
-    app_url = shop_name.iloc[i,2]
     dpdata = requests.get(url=url,headers = header,allow_redirects = False).text
-    appdata = requests.get(url=app_url).text
     bsObj = BeautifulSoup(dpdata,'html5lib')
-    bsapp = BeautifulSoup(appdata, 'html5lib')
-    shop_data.iloc[i,0] = shop_name.iloc[i,0]
-    shop_data.iloc[i,1] = shop_name.iloc[i,1]
-    shop_data.iloc[i,2] = bsapp.title.string
-    try:
-        shop_data.iloc[i,3] = str(bsObj.title.string[0:-14])
-    except AttributeError as e:
-        shop_data.iloc[i,3] = None
-    shop_data.iloc[i,4] = bsapp.findAll("span",{"class":re.compile("star star-"+"[0-9]+")})[0].attrs['class'][-1][-2:]
-    shop_data.iloc[i,5] = bsapp.findAll("span",{"class":"itemNum-val"})[0].string
-    shop_data.iloc[i,6] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[0].string
-    shop_data.iloc[i,7] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[1].string
-    shop_data.iloc[i,8] = bsapp.findAll("div",{"class":"desc"})[0].findAll("span")[2].string
-    shop_data.iloc[i,9] = str(bsObj.findAll("dd")[1].em.string[1:-1])
-    shop_data.iloc[i,10] = str(bsObj.findAll("dd")[2].em.string[1:-1])
-    shop_data.iloc[i,11] = str(bsObj.findAll("dd")[3].em.string[1:-1])
-    shop_data.iloc[i,12] = str(bsObj.findAll("dd")[4].em.string[1:-1])
-    shop_data.iloc[i,13] = str(bsObj.findAll("dd")[5].em.string[1:-1])
-    shop_data.iloc[i,14] = get_counts(origin_url=url, star_num= 2, ct_num=int(shop_data.iloc[i, 12]))
-    shop_data.iloc[i,15] = get_counts(origin_url=url, star_num= 1, ct_num=int(shop_data.iloc[i, 13]))
-    print(shop_data[i:i+1])
+    sls_id = str(shop_name.iloc[i,0]).encode('utf-8')
+    origin_name = str(shop_name.iloc[i,1]).encode('utf-8').decode('utf-8')
+    sls_name = str(bsObj.title.string[0:-14])
+    star2_num = str(bsObj.findAll("dd")[4].em.string[1:-1])
+    get_counts(origin_url=url, star_num= 2, sid = sls_id, oname = origin_name, sname = sls_name, ct_num=int(star2_num))
     time.sleep(5)
