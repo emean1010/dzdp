@@ -13,7 +13,7 @@ header = {
     'Referer':'http://www.dianping.com/shop/2230012',
     'pgrade-Insecure-Requests':'1',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
-shop_name = pd.DataFrame(pd.read_csv("./shop1.csv",encoding='utf-8'))
+shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='utf-8'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
 
 def get_counts(origin_url,star_num = 1, ct_num = 37):
@@ -25,11 +25,12 @@ def get_counts(origin_url,star_num = 1, ct_num = 37):
         comment_text = requests.get(url=ct_url, headers=header).text
         bsComment = BeautifulSoup(comment_text, 'html5lib')
         for i in range(0, len(bsComment.findAll("li",{"id": re.compile("^rev_[0-9]+$")}))):
-            a = len(bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})[i].findAll("span", {"class": "time"})[
-                        0].string)
-            if a == 5:
+            a = bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})[i].findAll("span", {"class": "time"})[
+                        0].string
+            b = int(str(a[0:2]))
+            if b < 16:
                 comments += 1
-            elif a > 5:
+            elif b == 16:
                 return (comments)
         ct_num -= 20
         x += 1
@@ -64,4 +65,4 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,15] = get_counts(origin_url=url, star_num= 1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(5)
-shop_data.to_csv("C:/DZDP/data324.csv")
+shop_data.to_csv("C:/DZDP/data325.csv")
