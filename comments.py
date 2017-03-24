@@ -16,7 +16,7 @@ header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
 shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='utf-8'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
-cm_file = codecs.open('comments320.txt','w','utf-8')
+cm_file = codecs.open('comments324.txt','w','utf-8')
 
 def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_num = 37):
     comments = 0
@@ -29,7 +29,8 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
         cm_txt = ""
         for i in range(0, len(bsComment.findAll("li",{"id": re.compile("^rev_[0-9]+$")}))):
             base_data = bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})
-            a = len(base_data[i].findAll("span", {"class": "time"})[0].string)
+            a = base_data[i].findAll("span", {"class": "time"})[0].string
+            b = int(str(a[0:2]))
             # 以下依次是星级、口味、环境、服务评分、评论内容
             cm_star = base_data[i].findAll('span',{"class":re.compile("item-rank-rst irr-star[0-9]+")})[0].attrs['class'][1][-2:-1]
             cm_kw = base_data[i].findAll('span',{'class':'rst'})[0].get_text()
@@ -40,7 +41,7 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
                 cm_txt = cm_txt.join(pinglun.string)
             except:
                 cm_txt = cm_txt.join(pinglun.get_text())
-            if a == 5:
+            if b < 16:
                 comments += 1
                 cm_file.write(str(sls_id.decode('utf-8')))
                 cm_file.write(",")
@@ -59,19 +60,22 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
                 try:
                     cm_file.write(cm_txt)
                 except:
-                    cm_txt = cm_txt.join(str(pinglun.encode('utf-8').decode('utf-8')))
-                    cm_file.write(cm_txt)
-                    print(sls_name+'no pinglun:')
-                    print(cm_txt)
-                    print(pinglun)
+                    print('评论无法提取'+sname+star2_num+'星'+ct_url)
+                    print('sname')
+                    # cm_txt = cm_txt.join(str(pinglun.encode('utf-8').decode('utf-8')))
+                    # cm_file.write(cm_txt)
+                    # print(sls_name+'no pinglun:')
+                    # print(cm_txt)
+                    # print(pinglun)
                 cm_txt = ''
                 cm_file.write("huan@hang")
                 print(sls_name, star2_num,comments)
-            elif a > 5:
+            elif b == 16:
                 return (comments)
+                break
         ct_num -= 20
         x += 1
-        time.sleep(5)
+        time.sleep(4)
         print(sls_name,comments)
 
 for i in range(0,len(shop_name['slsid'])):
@@ -80,7 +84,11 @@ for i in range(0,len(shop_name['slsid'])):
     bsObj = BeautifulSoup(dpdata,'html5lib')
     sls_id = str(shop_name.iloc[i,0]).encode('utf-8')
     origin_name = str(shop_name.iloc[i,1]).encode('utf-8').decode('utf-8')
-    sls_name = str(bsObj.title.string[0:-14])
+    try:
+        sls_name = str(bsObj.title.string[0:-14])
+    except:
+        print('no name'+origin_name+url)
+    # 部分店铺2星或1星数为0，用try避免出错
     try:
         star2_num = str(bsObj.find("a",{"href":re.compile('[a-z0-9\._+]+2star')}).parent.em.string[1:-1])
         get_counts(origin_url=url, star_num=2, sid=sls_id, oname=origin_name, sname=sls_name, ct_num=int(star2_num))
@@ -93,6 +101,4 @@ for i in range(0,len(shop_name['slsid'])):
         print('1star=0')
     time.sleep(5)
 
-# 1,东滨店有一条繁体评论
-# 2，日期长度有大于5，比如03-16  更新于17-03-16 01:32
-# 3，星级评论数目，数目为0处为空，后面的星级数目提前，已解决
+# 东滨店有一条繁体评论
