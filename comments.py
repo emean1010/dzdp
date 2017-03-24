@@ -100,5 +100,3 @@ for i in range(0,len(shop_name['slsid'])):
     except:
         print('1star=0')
     time.sleep(5)
-
-# 东滨店有一条繁体评论
