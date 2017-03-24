@@ -13,21 +13,8 @@ header = {
     'Referer':'http://www.dianping.com/shop/2230012',
     'pgrade-Insecure-Requests':'1',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
-shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='gbk'))
+shop_name = pd.DataFrame(pd.read_csv("./shop1.csv",encoding='utf-8'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
-# shop_data['shop_name'] = shop_data['shop_name'].astype('str')
-# shop_data['app_name'] = shop_data['app_name'].astype('str')
-# shop_data['name'] = shop_data['name'].astype('str')
-# shop_data['star_level'] = shop_data['star_level'].astype('str')
-# shop_data['commits'] = shop_data['commits'].astype('str')
-# shop_data['kw'] = shop_data['kw'].astype('str')
-# shop_data['hj'] = shop_data['hj'].astype('str')
-# shop_data['fw'] = shop_data['fw'].astype('str')
-# shop_data['s5'] = shop_data['s5'].astype('str')
-# shop_data['s4'] = shop_data['s4'].astype('str')
-# shop_data['s3'] = shop_data['s3'].astype('str')
-# shop_data['s2'] = shop_data['s2'].astype('str')
-# shop_data['s1'] = shop_data['s1'].astype('str')
 
 def get_counts(origin_url,star_num = 1, ct_num = 37):
     comments = 0
@@ -47,7 +34,7 @@ def get_counts(origin_url,star_num = 1, ct_num = 37):
         ct_num -= 20
         x += 1
         time.sleep(5)
-    return(len(comments))
+    return(comments)
 
 for i in range(0,len(shop_name['slsid'])):
     url = shop_name.iloc[i,3]
@@ -77,4 +64,4 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,15] = get_counts(origin_url=url, star_num= 1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(5)
-shop_data.to_csv("C:/DZDP/data315.csv")
+shop_data.to_csv("C:/DZDP/data324.csv")
