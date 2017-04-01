@@ -16,11 +16,11 @@ header = {
 
 origin_url = "http://www.dianping.com/shop/2230012/review_more"
 
-def get_counts(origin_url,star_num = 1, s5 = 37):
+def get_counts(origin_url,star_num = 5, s5 = 600):
     comments = {}
     x = 1
     add_url = "star?pageno="
-    if s5 > 20:
+    while s5 > 0:
         url = origin_url + "_" + str(star_num) + add_url + str(x)
         comment_text = requests.get(url=url, headers=header).text
         bsComment = BeautifulSoup(comment_text, 'html5lib')

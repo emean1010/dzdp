@@ -68,4 +68,4 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,18] = get_counts(origin_url=url, star_num=1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(5)
-shop_data.to_csv("C:/DZDP/data330.csv")
+shop_data.to_csv("C:/DZDP/data0401.csv")

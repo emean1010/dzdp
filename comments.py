@@ -16,7 +16,7 @@ header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
 shop_name = pd.DataFrame(pd.read_csv("./shop.csv",encoding='utf-8'))
 shop_data = pd.DataFrame(pd.read_csv("./total.csv"))
-cm_file = codecs.open('comments324.txt','w','utf-8')
+cm_file = codecs.open('C:/DZDP/comments0403.txt','w','utf-8')
 
 def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_num = 37):
     comments = 0
@@ -41,22 +41,24 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
                 cm_txt = cm_txt.join(pinglun.string)
             except:
                 cm_txt = cm_txt.join(pinglun.get_text())
-            if b < 16:
+            if b < 13:
                 comments += 1
                 cm_file.write(str(sls_id.decode('utf-8')))
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 cm_file.write(str(origin_name))
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 cm_file.write(sls_name)
-                cm_file.write(",")
+                cm_file.write("dou@hao")
+                cm_file.write(a)
+                cm_file.write("dou@hao")
                 cm_file.write(str(cm_star))
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 cm_file.write(cm_kw)
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 cm_file.write(cm_hj)
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 cm_file.write(cm_fw)
-                cm_file.write(",")
+                cm_file.write("dou@hao")
                 try:
                     cm_file.write(cm_txt)
                 except:
