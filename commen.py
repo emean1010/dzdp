@@ -31,6 +31,14 @@ def get_counts(origin_url,star_num = 1, ct_num = 37):
             b = int(str(a[0:2]))
             if b < 16:
                 comments += 1
+            elif len(a) > 8:
+                c = int(str(a[13:15]))
+                print("再次评论")
+                print(c)
+                if c == 17:
+                    comments += 1
+                else:
+                    print("16年更新评论：")
             elif b == 16:
                 return (comments)
         ct_num -= 20
@@ -43,7 +51,11 @@ for i in range(0,len(shop_name['slsid'])):
     app_url = shop_name.iloc[i,2]
     dpdata = requests.get(url=url,headers = header,allow_redirects = False).text
     appdata = requests.get(url=app_url,headers = header).text
-    appdata=appdata.encode('ISO-8859-1').decode()
+    try:
+        appdata=appdata.encode('ISO-8859-1').decode()
+    except:
+        print(appdata)
+        print(app_url)
     bsObj = BeautifulSoup(dpdata,'html5lib')
     bsapp = BeautifulSoup(appdata, 'html5lib')
     shop_data.iloc[i,0] = shop_name.iloc[i,0]
@@ -67,4 +79,4 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,18] = get_counts(origin_url=url, star_num=1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(random.randint(4,7))
-    shop_data.to_csv("C:/DZDP/data0430.csv")
+    shop_data.to_csv("C:/DZDP/data0516.csv")
