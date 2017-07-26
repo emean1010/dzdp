@@ -1,4 +1,5 @@
 slsid,shop_name,address,add2
+79,科技园店,http://www.dianping.com/shop/69231001,http://www.dianping.com/shop/69231001/review_more
 30,园博园店,http://www.dianping.com/shop/2230012,http://www.dianping.com/shop/2230012/review_more
 33,香蜜湖店,http://www.dianping.com/shop/2234002,http://www.dianping.com/shop/2234002/review_more
 46,西乡金海路店,http://www.dianping.com/shop/18258245,http://www.dianping.com/shop/18258245/review_more
@@ -19,7 +20,6 @@ slsid,shop_name,address,add2
 92,西丽一店,http://www.dianping.com/shop/79276801,http://www.dianping.com/shop/79276801/review_more
 81,翻身路店,http://www.dianping.com/shop/73621974,http://www.dianping.com/shop/73621974/review_more
 69,东门兴湖店,http://www.dianping.com/shop/58131139,http://www.dianping.com/shop/58131139/review_more
-48,东门店,http://www.dianping.com/shop/19428481,http://www.dianping.com/shop/19428481/review_more
 35,振华店,http://www.dianping.com/shop/3183130,http://www.dianping.com/shop/3183130/review_more
 51,燕南店,http://www.dianping.com/shop/22179572,http://www.dianping.com/shop/22179572/review_more
 55,大润发店,http://www.dianping.com/shop/24620729,http://www.dianping.com/shop/24620729/review_more
@@ -38,6 +38,8 @@ slsid,shop_name,address,add2
 82,龙华宝华路店,http://www.dianping.com/shop/73621957,http://www.dianping.com/shop/73621957/review_more
 34,龙华店,http://www.dianping.com/shop/2774050,http://www.dianping.com/shop/2774050/review_more
 93,南园店,http://www.dianping.com/shop/79276940,http://www.dianping.com/shop/79276940/review_more
+97,西丽二店,http://www.dianping.com/shop/90005647,http://www.dianping.com/shop/90005647/review_more
+99,沙井店,http://www.dianping.com/shop/91960410,http://www.dianping.com/shop/91960410/review_more
 87,远大西路店,http://www.dianping.com/shop/76073171,http://www.dianping.com/shop/76073171/review_more
 77,亚运村店,http://www.dianping.com/shop/67938982,http://www.dianping.com/shop/67938982/review_more
 11,健德门店,http://www.dianping.com/shop/18782391,http://www.dianping.com/shop/18782391/review_more
@@ -58,6 +60,8 @@ slsid,shop_name,address,add2
 64,学院南路店,http://www.dianping.com/shop/38316167,http://www.dianping.com/shop/38316167/review_more
 16,苹果园店,http://www.dianping.com/shop/22593954,http://www.dianping.com/shop/22593954/review_more
 5,北京国展店,http://www.dianping.com/shop/8983570,http://www.dianping.com/shop/8983570/review_more
+96,果园店,http://www.dianping.com/shop/90005680,http://www.dianping.com/shop/90005680/review_more
+101,洋桥店,http://www.dianping.com/shop/92240036,http://www.dianping.com/shop/92240036/review_more
 89,和平大悦城店,http://www.dianping.com/shop/76074155,http://www.dianping.com/shop/76074155/review_more
 17,大沽南路店,http://www.dianping.com/shop/22456208,http://www.dianping.com/shop/22456208/review_more
 28,西南角店,http://www.dianping.com/shop/32410811,http://www.dianping.com/shop/32410811/review_more
@@ -67,8 +71,11 @@ slsid,shop_name,address,add2
 53,圣地店,http://www.dianping.com/shop/22521597,http://www.dianping.com/shop/22521597/review_more
 57,棠下店,http://www.dianping.com/shop/27501468,http://www.dianping.com/shop/27501468/review_more
 58,东圃店,http://www.dianping.com/shop/27188524,http://www.dianping.com/shop/27188524/review_more
+95,润政广场店,http://www.dianping.com/shop/81850383,http://www.dianping.com/shop/81850383/review_more
+102,天河学院店,http://www.dianping.com/shop/92552689,http://www.dianping.com/shop/92552689/review_more
 84,紫荆商业广场店,http://www.dianping.com/shop/73621948,http://www.dianping.com/shop/73621948/review_more
 88,宝山大华店,http://www.dianping.com/shop/76744598,http://www.dianping.com/shop/76744598/review_more
 18,宝山万达店,http://www.dianping.com/shop/22075218,http://www.dianping.com/shop/22075218/review_more
 67,龙茗路店,http://www.dianping.com/shop/33599886,http://www.dianping.com/shop/33599886/review_more
+103,光新路店,http://www.dianping.com/shop/92370548,http://www.dianping.com/shop/92370548/review_more
 76,惠阳华润小径湾店,http://www.dianping.com/shop/67330809,http://www.dianping.com/shop/67330809/review_more

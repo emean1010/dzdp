@@ -6,7 +6,7 @@ import re
 import codecs
 
 orgin_url = "http://tests.muwubbq.com/admin/user_info/selectAll_new.php?pageinfo="
-total_page = 27
+total_page = 11
 xd_file = codecs.open('E:\巡店系统/table0515.txt','w','utf-8')
 i = 1
 while i < total_page:

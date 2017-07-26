@@ -54,7 +54,7 @@ for i in range(0,len(shop_name['slsid'])):
     try:
         appdata=appdata.encode('ISO-8859-1').decode()
     except:
-        print(appdata)
+        print("正常编码")
         print(app_url)
     bsObj = BeautifulSoup(dpdata,'html5lib')
     bsapp = BeautifulSoup(appdata, 'html5lib')
@@ -79,4 +79,4 @@ for i in range(0,len(shop_name['slsid'])):
     shop_data.iloc[i,18] = get_counts(origin_url=url, star_num=1, ct_num=int(shop_data.iloc[i, 13]))
     print(shop_data[i:i+1])
     time.sleep(random.randint(4,7))
-    shop_data.to_csv("C:/DZDP/data0516.csv")
+    shop_data.to_csv("C:/DZDP/data0715.csv")

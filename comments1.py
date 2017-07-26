@@ -30,13 +30,10 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
         for i in range(0, len(bsComment.findAll("li",{"id": re.compile("^rev_[0-9]+$")}))):
             base_data = bsComment.findAll("li", {"id": re.compile("^rev_[0-9]+$")})
             a = base_data[i].findAll("span", {"class": "time"})[0].string
-            print("a="+str(a))
             b = int(str(a[0:2]))
-            if len(a)>8:
-                print(str(a[-10:-18]))
-            else:
-                print(b)
-            # 以下依次是星级、口味、环境、服务评分、评论内容
+            c = int(str(len(a)))
+            # a1 = int(str(a[-14:-12]))
+            # 以下依次是星级、口味、环境、服务评分、评论内容 or (c > 8 and int(str(a[-14:-12])) == 17)
             cm_star = base_data[i].findAll('span',{"class":re.compile("item-rank-rst irr-star[0-9]+")})[0].attrs['class'][1][-2:-1]
             try:
                 cm_kw = base_data[i].findAll('span',{'class':'rst'})[0].get_text()
@@ -50,7 +47,7 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
                 cm_txt = cm_txt.join(pinglun.string)
             except:
                 cm_txt = cm_txt.join(pinglun.get_text())
-            if b < 13 & len(a) == 5:
+            if (b < 13 and c == 5) or (c > 8 and int(str(a[-14:-12])) == 17):
                 try:
                     comments += 1
                     cm_file.write(str(sls_id.decode('utf-8')))
@@ -81,7 +78,7 @@ def get_counts(origin_url,star_num = 1, sid = 0, oname = 'a', sname = 'a', ct_nu
                     # print(sls_name+'no pinglun:')
                     # print(cm_txt)
                     # print(pinglun)
-            elif b == 16:
+            else:
                 return (comments)
                 break
         ct_num -= 20
